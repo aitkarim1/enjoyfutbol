@@ -89,3 +89,14 @@ section{
 .leaflet-popup .leaflet-popup-content {
     margin: 6px;
 }
+
+.div-container {
+    height: 89vh;
+    background-color: rgb(18, 18, 18);
+}
+
+.form {
+    padding: 30px 90px 50px 90px;
+    border-radius: 10px;
+    background-color: rgb(179, 179, 179);
+}

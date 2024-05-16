@@ -5,6 +5,44 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faAngleRight, faCalendarDays, faLocationDot, faPersonRunning } from '@fortawesome/free-solid-svg-icons'
 
 function Partido() {
+    const [partidos, setPartidos] = useState([])
+
+    
+    useEffect(() => {
+        // Función para obtener los partidos
+        const fetchPartidos = async () => {
+            try {
+                const response = await fetch('http://localhost:8000/api/buscar-partidos', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        ciudad: ciudad,
+                        fecha: fecha
+                    })
+                });
+                if (response.ok) {
+                    const data = await response.json();
+                    setPartidos(data.partidos);
+                    const nuevaFecha = new Date(fecha);
+                    setFechaFormateada(
+                        nuevaFecha.toLocaleDateString('es-ES', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })
+                    );
+                    setNuevaCiudad(ciudad)
+                    setPartidosCheck(partidos.length)
+                } else {
+                    console.error('Error al buscar partidos:', response.statusText);
+                }
+            } catch (error) {
+                console.error('Error al obtener los partidos:', error);
+            }
+        };
+
+        // Llamar a la función para obtener los partidos cuando el componente se monta
+        fetchPartidos();
+    }, []);
+
   return (
     <section>
       <Aside />

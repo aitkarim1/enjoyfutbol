@@ -25,7 +25,7 @@ function Administrar() {
             <div style={{ display: "flex", justifyContent: "center" }}>
                 <div>
                 <div style={{ display: "flex", justifyContent: "center" }}><FontAwesomeIcon icon={faUser} size="5x" /></div><br/>
-                <div style={{ cursor: "pointer" }}><p>Administrar usuarios</p></div>
+                <div style={{ cursor: "pointer" }}><p><a href="/usuarios" style={{ textDecoration: 'none', color: 'inherit' }}>Administrar usuarios</a></p></div>
                 </div>
             </div>
         </div>
@@ -36,7 +36,7 @@ function Administrar() {
             <div style={{ display: "flex", justifyContent: "center" }}>
                 <div>
                 <div style={{ display: "flex", justifyContent: "center" }}><FontAwesomeIcon icon={faFutbol} size="5x" /></div><br/>
-                <div style={{ cursor: "pointer" }}><p>Administrar campos</p></div>
+                <div style={{ cursor: "pointer" }}><p><a href="/campos" style={{ textDecoration: 'none', color: 'inherit' }}>Administrar campos</a></p></div>
                 </div>
             </div>
         </div>

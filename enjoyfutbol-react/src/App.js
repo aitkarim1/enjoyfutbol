@@ -16,6 +16,7 @@ import MapCampos from './pages/MapCampos';
 import Profile from './pages/Profile';
 import Administrar from './pages/Administrar';
 import Usuarios from './pages/Usuarios';
+import Campos from './pages/Campos';
 
 function App() {
   return (
@@ -26,12 +27,13 @@ function App() {
           <Route element={<ProtectedRoute />}>
               <Route path="/" element={<Home />} />
               <Route path="/partidos" element={<Partidos />} />
-              <Route path="/partido" element={<Partido />} />
+              <Route path="/partido/:id" element={<Partido />} />
               <Route path="/MisPartidos" element={<MisPartidos />} />
               <Route path="/MapCampos" element={<MapCampos />} />
               <Route path="/profile" element={<Profile />} />
               <Route path="/administrar" element={<Administrar />} />
               <Route path="/usuarios" element={<Usuarios />} />
+              <Route path="/campos" element={<Campos />} />
               {/* Más rutas protegidas pueden ir aquí */}
           </Route>
           <Route element={<PublicRoute />}>

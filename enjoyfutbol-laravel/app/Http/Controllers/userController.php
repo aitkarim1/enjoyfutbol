@@ -51,7 +51,9 @@ class userController extends Controller
         $cookie = cookie('jwt', $token, 60 * 24);
 
         // Devolver el usuario y establecer la cookie
-        return response()->json(['user' => $user])->withCookie($cookie);
+        return response()->json(['user' => $user])->withCookie($cookie)
+            ->header('Access-Control-Allow-Origin', 'http://localhost:3000')
+            ->header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
     }
 
     public function user(Request $request)
@@ -87,11 +89,79 @@ class userController extends Controller
         }
     }
 
-    public function logout() {
+    public function logout()
+    {
         $cookie = Cookie::forget("jwt");
 
         return response()->json([
             "msg" => "Se ha cerrado la sesion"
         ])->withCookie($cookie);
+    }
+
+    public function getUsuarios()
+    {
+        // Obtener todos los usuarios
+        $usuarios = User::all();
+
+        // Verificar si se encontraron usuarios
+        if ($usuarios->isEmpty()) {
+            return response()->json(['error' => 'No se encontraron usuarios'], 404);
+        }
+
+        // Devolver los usuarios como respuesta
+        return response()->json(['usuarios' => $usuarios]);
+    }
+
+    public function eliminarUsuario(Request $request)
+    {
+        // Buscar al usuario por su ID
+        $usuario = User::find($request->id);
+
+        // Verificar si el usuario existe
+        if (!$usuario) {
+            return response()->json(['error' => 'Usuario no encontrado'], 404);
+        }
+
+        // Eliminar al usuario
+        $usuario->delete();
+
+        // Devolver una respuesta de éxito
+        return response()->json(['message' => 'Usuario eliminado correctamente']);
+    }
+
+    public function verUsuario(Request $request)
+    {
+        // Buscar al usuario por su ID
+        $usuario = User::find($request->id);
+
+        // Verificar si el usuario existe
+        if (!$usuario) {
+            return response()->json(['error' => 'Usuario no encontrado'], 404);
+        }
+
+        // Devolver los detalles del usuario como respuesta
+        return response()->json(['usuario' => $usuario]);
+    }
+
+    public function modificarUsuario(Request $request)
+    {
+        // Buscar al usuario por su ID
+        $usuario = User::find($request->id);
+
+        // Verificar si el usuario existe
+        if (!$usuario) {
+            return response()->json(['error' => 'Usuario no encontrado'], 404);
+        }
+
+        // Modificar los campos del usuario según los datos proporcionados en la solicitud
+        $usuario->update([
+            'name' => $request->input('name'),
+            'email' => $request->input('email'),
+            'sueldo' => $request->input('sueldo'),
+            'role' => $request->input('role'),
+        ]);
+
+        // Devolver una respuesta de éxito
+        return response()->json(['message' => 'Usuario modificado correctamente']);
     }
 }
