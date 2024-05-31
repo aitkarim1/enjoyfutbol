@@ -114,8 +114,9 @@ class userController extends Controller
 
     public function eliminarUsuario(Request $request)
     {
+        info('ID del usuario recibido: ' . $request->input('user_id'));
         // Buscar al usuario por su ID
-        $usuario = User::find($request->id);
+        $usuario = User::find($request->input('user_id'));
 
         // Verificar si el usuario existe
         if (!$usuario) {
@@ -132,7 +133,7 @@ class userController extends Controller
     public function verUsuario(Request $request)
     {
         // Buscar al usuario por su ID
-        $usuario = User::find($request->id);
+        $usuario = User::find($request->input('user_id'));
 
         // Verificar si el usuario existe
         if (!$usuario) {
@@ -143,10 +144,10 @@ class userController extends Controller
         return response()->json(['usuario' => $usuario]);
     }
 
-    public function modificarUsuario(Request $request)
+    public function modificarUsuarioAdmin(Request $request)
     {
         // Buscar al usuario por su ID
-        $usuario = User::find($request->id);
+        $usuario = User::find($request->input('user_id'));
 
         // Verificar si el usuario existe
         if (!$usuario) {
@@ -158,10 +159,48 @@ class userController extends Controller
             'name' => $request->input('name'),
             'email' => $request->input('email'),
             'sueldo' => $request->input('sueldo'),
+            'genero' => $request->input('genero'),
+            'fechaNacimiento' => $request->input('fechaNacimiento'),
+            'numeroPartidos' => $request->input('numeroPartidos'),
+            'nivel' => $request->input('nivel'),
             'role' => $request->input('role'),
         ]);
 
         // Devolver una respuesta de éxito
         return response()->json(['message' => 'Usuario modificado correctamente']);
+    }
+
+    public function editarUsuario(Request $request)
+    {
+        info('ID del usuario recibido: ' . $request->input('user_id'));
+        // Buscar al usuario por su ID
+        $usuario = User::find($request->input('user_id'));
+
+        // Verificar si el usuario existe
+        if (!$usuario) {
+            return response()->json(['error' => 'Usuario no encontrado'], 404);
+        }
+
+        // Modificar los campos del usuario según los datos proporcionados en la solicitud
+        $usuario->update([
+            'genero' => $request->input('genero'),
+            'fechaNacimiento' => $request->input('fechaNacimiento'),
+            'nivel' => $request->input('nivel'),
+        ]);
+
+        // Devolver una respuesta de éxito
+        return response()->json(['message' => 'Usuario modificado correctamente']);
+    }
+
+    public function buscarUsuarios(Request $request)
+    {
+        // Obtener el texto de búsqueda del input
+        $textoBusqueda = $request->input('texto_busqueda');
+
+        // Buscar usuarios que coincidan con el texto de búsqueda en el nombre
+        $usuarios = User::where('name', 'like', '%' . $textoBusqueda . '%')->get();
+
+        // Devolver los usuarios encontrados
+        return response()->json($usuarios);
     }
 }

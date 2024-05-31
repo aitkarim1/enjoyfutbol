@@ -15,7 +15,8 @@ function MapCampos() {
         const response = await fetch('http://localhost:8000/api/get-campos');
         if (response.ok) {
           const data = await response.json();
-          setCampos(data.campo);
+          console.log(data)
+          setCampos(data);
         } else {
           console.error('Error al obtener los campos:', response.statusText);
         }
@@ -28,7 +29,6 @@ function MapCampos() {
   }, []);
 
   const customIcon = new Icon({
-    // iconUrl: "https://cdn-icons-png.flaticon.com/512/447/447031.png",
     iconUrl: require("../asset/icons/iconoMapa.webp"),
     iconSize: [30, 30] // size of the icon
   });

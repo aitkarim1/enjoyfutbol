@@ -20,7 +20,7 @@ class campoController extends Controller
         ]);
 
         // Devolver una respuesta con el partido creado
-        return response()->json(['campo' => $campo], 201);
+        return response()->json($campo, 201);
     }
 
     public function getCampos()
@@ -29,7 +29,7 @@ class campoController extends Controller
         $campo = Campo::all();
 
         // Devolver una respuesta con todos los partidos
-        return response()->json(['campo' => $campo]);
+        return response()->json($campo);
     }
 
     public function getCampoById(Request $request)
@@ -43,7 +43,7 @@ class campoController extends Controller
         }
 
         // Devolver una respuesta de éxito
-        return response()->json(['campo' => $campo]);
+        return response()->json($campo);
     }
 
     public function borrarCampo(Request $request)
@@ -81,6 +81,25 @@ class campoController extends Controller
         $campo->longitud = $request->longitud;
 
         // Devolver una respuesta con el partido actualizado
-        return response()->json(['campo' => $campo]);
+        return response()->json($campo);
+    }
+
+    public function eliminarCampo(Request $request)
+    {
+        info('ID del campo recibido: ' . $request->input('campo_id'));
+
+        // Buscar el campo por su ID
+        $campo = Campo::find($request->input('campo_id'));
+
+        // Verificar si el campo existe
+        if (!$campo) {
+            return response()->json(['error' => 'Campo no encontrado'], 404);
+        }
+
+        // Eliminar el campo
+        $campo->delete();
+
+        // Devolver una respuesta de éxito
+        return response()->json(['message' => 'Campo eliminado correctamente']);
     }
 }

@@ -3,17 +3,23 @@ import Aside from '../components/Aside';
 import { Badge, Button, Form, ListGroup, Modal } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../components/AuthUser';
 
 function Usuarios() {
-    const [user, setUser] = useState("admin");
+    const { user } = useAuth();
     const navigate = useNavigate();
     const [campos, setCampos] = useState([]);
+    const [selectedUser, setSelectedUser] = useState(null);
+
     const [showModificarModal, setShowModificarModal] = useState(false);
     const [showEliminarModal, setShowEliminarModal] = useState(false);
     const [showCampoModal, setShowCampoModal] = useState(false);
 
     const handleModificarClick = () => setShowModificarModal(true);
-    const handleEliminarClick = () => setShowEliminarModal(true);
+    const handleEliminarClick = (campo) => {
+        setSelectedUser(campo.id);
+        setShowEliminarModal(true);
+    }
     const handleCampoClick = () => setShowCampoModal(true);
 
     const handleCloseModificarModal = () => setShowModificarModal(false);
@@ -21,9 +27,10 @@ function Usuarios() {
     const handleCloseCampoModal = () => setShowCampoModal(false);
 
     useEffect(() => {
-        if (user !== "admin") {
+        if (user.role !== "admin") {
             navigate("/home");
         }
+        fetchCampos()
     }, []);
 
 
@@ -32,7 +39,29 @@ function Usuarios() {
             const response = await fetch('http://localhost:8000/api/get-campos');
             if (response.ok) {
                 const data = await response.json();
-                setCampos(data.campos);
+                setCampos(data);
+                console.log(data)
+                console.log(campos.length)
+            } else {
+                console.error('Error al obtener campos:', response.statusText);
+            }
+        } catch (error) {
+            console.error('Error al obtener campos:', error);
+        }
+    };
+
+    const Eleminar = async () => {
+        try {
+            const response = await fetch('http://localhost:8000/api/eleminar-campo', {
+                method: "POST",
+                headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    campo_id: selectedUser,
+                })
+            });
+            if (response.ok) {
+                const userData = await response.json();
+                window.location.reload();
             } else {
                 console.error('Error al obtener campos:', response.statusText);
             }
@@ -59,17 +88,19 @@ function Usuarios() {
                 </div>
                 <hr className='my-5' />
                 <ListGroup as="ol" className="custom-list-group" style={{ border: "white" }}>
-                    {campos.map((campo, index) => (
-                        <ListGroup.Item key={index} as="li" className="d-flex justify-content-between align-items-center py-1" style={{ borderBottom: "white solid 1px" }} action>
-                            <div className="my-3 me-auto" onClick={handleCampoClick}>
-                                <div className="fw-bold">{campo.name}</div>
-                            </div>
-                            <div>
-                                <Button variant="info" className='mx-2' onClick={handleModificarClick}>Modificar</Button>
-                                <Button variant="danger" onClick={handleEliminarClick}>Eliminar</Button>
-                            </div>
-                        </ListGroup.Item>
-                    ))}
+                    {campos.length > 0 && (
+                        campos.map((campo, index) => (
+                            <ListGroup.Item key={index} as="li" className="d-flex justify-content-between align-items-center py-1" style={{ borderBottom: "white solid 1px" }} action>
+                                <div className="my-3 me-auto" onClick={handleCampoClick}>
+                                    <div className="fw-bold">{campo.nombre}</div>
+                                </div>
+                                <div>
+                                    <Button variant="info" className='mx-2' onClick={handleModificarClick}>Modificar</Button>
+                                    <Button variant="danger" onClick={() => handleEliminarClick(campo)}>Eliminar</Button>
+                                </div>
+                            </ListGroup.Item>
+                        ))
+                    )}
                 </ListGroup>
             </main>
 
@@ -103,7 +134,7 @@ function Usuarios() {
                     <Button variant="secondary" onClick={handleCloseEliminarModal}>
                         Cancelar
                     </Button>
-                    <Button variant="danger">
+                    <Button variant="danger" onClick={Eleminar}>
                         Eliminar
                     </Button>
                 </Modal.Footer>

@@ -22,6 +22,10 @@ class User extends Authenticatable
         'email',
         'password',
         'sueldo',
+        'genero',
+        'fechaNacimiento',
+        'nivel',
+        'numeroPartidos',
         'role',
     ];
 
@@ -42,4 +46,9 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function partidos()
+    {
+        return $this->belongsToMany(Partido::class, 'partido_usuario');
+    }
 }

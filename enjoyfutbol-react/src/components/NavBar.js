@@ -26,7 +26,7 @@ function NavBar() {
     <>
       {user !== null && (
         <>
-          <div className="nav-sup" style={{ height: "auto" }}>Contact: enjoyfutbol@conatct.tech</div>
+          <div className="nav-sup" style={{ height: "auto" }}>Contact: enjoyfutbol@contact.tech</div>
           <Navbar expand="lg" className="navbar navbar-dark bg-dark py-3">
             <Container>
               <Navbar.Brand href="/">EnjoyFutbol</Navbar.Brand>
@@ -38,7 +38,7 @@ function NavBar() {
                       <Navbar.Text>€{user.sueldo} </Navbar.Text>
                       <div className="vr vr-blurry" style={{ height: "20px", alignSelf: "center", marginLeft: "7px", color: "white" }}></div>
                       <NavDropdown title={user.name} id="basic-nav-dropdown">
-                        <NavDropdown.Item href="profile"><FontAwesomeIcon icon={faUser} className="icon-nav" />perfil</NavDropdown.Item>
+                        <NavDropdown.Item href="/profile"><FontAwesomeIcon icon={faUser} className="icon-nav" />perfil</NavDropdown.Item>
                         <NavDropdown.Divider />
                         <NavDropdown.Item onClick={logout}><FontAwesomeIcon icon={faRightFromBracket} className="icon-nav" />Cerrar sesion</NavDropdown.Item>
                       </NavDropdown>

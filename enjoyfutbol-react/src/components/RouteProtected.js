@@ -1,6 +1,7 @@
 import { Navigate, Outlet } from 'react-router-dom';
 import { useAuth } from './AuthUser';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import '../App.css';
 
 // Componente para rutas protegidas
 const ProtectedRoute = () => {
@@ -8,7 +9,11 @@ const ProtectedRoute = () => {
     console.log(user)
     
     if (user === null) { // Si user es null, muestra un indicador de carga
-        return <CircularProgress />;
+        return (
+            <div style={{ height:"100vh", display:"flex", justifyContent:"center", alignItems:"center" }}>
+                <CircularProgress />
+            </div>
+        )
     }
 
     if (!user) { // Si user es false, redirige a la página de inicio de sesión
@@ -23,7 +28,11 @@ const PublicRoute = () => {
     const { user } = useAuth();
     console.log(user)
     if (user === null) { // Si user es null, muestra un indicador de carga
-        return <CircularProgress />; 
+        return (
+            <div style={{ height:"100vh", display:"flex", justifyContent:"center", alignItems:"center" }}>
+                <CircularProgress />
+            </div>
+        )
     }
 
     if (user) {

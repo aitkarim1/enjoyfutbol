@@ -21,6 +21,10 @@ export const AuthProvider = ({ children }) => {
                     name: userData.user.name,
                     email: userData.user.email,
                     sueldo: userData.user.sueldo,
+                    genero: userData.user.genero,
+                    fechaNacimiento: userData.user.fechaNacimiento,
+                    nivel: userData.user.nivel,
+                    numeroPartidos: userData.user.numeroPartidos,
                     role: userData.user.role
                 } : false);
             } catch (error) {

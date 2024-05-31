@@ -16,14 +16,14 @@ return new class extends Migration
         Schema::create('partidos', function (Blueprint $table) {
             $table->id();
             $table->string('campo_id');
-            $table->string('campo_nombre');
-            $table->string('campo_ubicacion');
-            $table->string('ciudad');
-            $table->string('jugadores');
+            $table->text('descripcion');
             $table->string('tipo');
             $table->date('fecha');
-            $table->string('hora');
-            $table->string('duracion');
+            $table->string('horaEmpezar');
+            $table->string('horaTerminar');
+            $table->decimal('coste', 8, 2)->default(0.00);
+            $table->integer('duracion');
+            $table->string('estado')->nullable(true);
             $table->timestamps();
         });
     }
