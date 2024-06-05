@@ -29,7 +29,7 @@ class partidoController extends Controller
         $partido = Partido::create([
             'campo_id' => $request->campo,
             'ciudad' => $request->ciudad,
-            'descripcion' => $request->descripcion ?? 'Partido de futbol',
+            'descripcion' => $request->descripcion ?? 'Es muy importante respetar a los demás jugadores. Si abandonas el partido 17 horas o menos antes de la hora de empezar el partido, no se hará la devolución del coste pagado.',
             'tipo' => $request->tipo,
             'fecha' => $request->fecha,
             'horaEmpezar' => $request->horaEmpezar,

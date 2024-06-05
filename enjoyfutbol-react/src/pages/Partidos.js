@@ -185,7 +185,8 @@ function Partidos() {
                 <h4 className='d-flex justify-content-center mb-2'>Partidos</h4>
                 <div>
                     <div>
-                        {user.role === "admin" && user.role === "organizador" && <Button variant='success' onClick={handleShowModalAgregarPartido}>Añadir partido</Button>}
+                        {console.log(user.role)}
+                        {user.role === "admin" || user.role === "organizador" ? <Button variant='success' onClick={handleShowModalAgregarPartido}>Añadir partido</Button> : ""}
                         <div className='my-4'>
                             <div className='m-3'>Filtrar los partidos:</div>
                             <Form onSubmit={Buscar}>

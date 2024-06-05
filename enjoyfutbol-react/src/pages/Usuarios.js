@@ -45,6 +45,9 @@ function Usuarios() {
         setSelectedUser(user.id);
         setName(user.name);
         setEmail(user.email);
+        setSueldo(user.sueldo);
+        setNivel(user.nivel);
+        setRole(user.role);
     }
 
     const handleCloseModificarModal = () => setShowModificarModal(false);
@@ -82,7 +85,7 @@ function Usuarios() {
                 method: "POST",
                 headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    user_id: selectedUser.id,
+                    user_id: selectedUser,
                     name: name,
                     email: email,
                     sueldo: sueldo,
@@ -94,8 +97,6 @@ function Usuarios() {
                 })
             });
             if (response.ok) {
-                const userData = await response.json();
-                setUsers(userData.usuarios);
                 setShowModificarModal(false);
                 window.location.reload();
             } else {
@@ -127,27 +128,6 @@ function Usuarios() {
         }
     };
 
-    // const Ver = async (e) => {
-    //     e.preventDefault();
-    //     try {
-    //         const response = await fetch('http://localhost:8000/api/ver-usuario', {
-    //             method: "POST",
-    //             headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
-    //             body: JSON.stringify({
-    //                 user_id: selectedUser,
-    //             })
-    //         });
-    //         if (response.ok) {
-    //             const userData = await response.json();
-    //             window.location.reload();
-    //         } else {
-    //             console.error('Error:', response);
-    //         }
-    //     } catch (error) {
-    //         console.error('Error al modificar usuario:', error);
-    //     }
-    // };
-
     const Buscar = async (e) => {
         e.preventDefault()
         try {
@@ -155,7 +135,7 @@ function Usuarios() {
                 method: "POST",
                 headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    searchText: searchText
+                    texto: searchText
                 })
             });
             if (response.ok) {
@@ -188,17 +168,19 @@ function Usuarios() {
                 </div>
                 <hr className='my-5' />
                 <ListGroup as="ol" className="custom-list-group" style={{ border: "white" }}>
-                    {users.map((user, index) => (
-                        <ListGroup.Item key={index} as="li" className="d-flex justify-content-between align-items-center py-1" style={{ borderBottom: "white solid 1px" }} action>
-                            <div className="my-3 me-auto" onClick={handleUsuarioClick}>
-                                <div className="fw-bold">{user.name}</div>
-                            </div>
-                            <div>
-                                <Button variant="info" className='mx-2' onClick={() => handleModificarClick(user)}>Modificar</Button>
-                                <Button variant="danger" onClick={() => handleEliminarClick(user)}>Eliminar</Button>
-                            </div>
-                        </ListGroup.Item>
-                    ))}
+                    {users && 
+                        users.map((user, index) => (
+                            <ListGroup.Item key={index} as="li" className="d-flex justify-content-between align-items-center py-1" style={{ borderBottom: "white solid 1px" }} action>
+                                <div className="my-3 me-auto" style={{ cursor:"pointer" }} onClick={() => handleUsuarioClick(user)}>
+                                    <div className="fw-bold">{user.name}</div>
+                                </div>
+                                <div>
+                                    <Button variant="info" className='mx-2' onClick={() => handleModificarClick(user)}>Modificar</Button>
+                                    <Button variant="danger" onClick={() => handleEliminarClick(user)}>Eliminar</Button>
+                                </div>
+                            </ListGroup.Item>
+                        ))
+                    }
                 </ListGroup>
             </main>
 
@@ -228,7 +210,7 @@ function Usuarios() {
                         <Form.Group controlId="formSueldo" className="mt-3">
                             <Form.Label>Sueldo</Form.Label>
                             <Form.Control
-                                type="text"
+                                type="number"
                                 value={sueldo}
                                 onChange={(e) => setSueldo(e.target.value)}
                             />
@@ -324,7 +306,11 @@ function Usuarios() {
                 </Modal.Header>
                 <Modal.Body>
                     <h5>Nombre: {name}</h5>
+                    <p>Id: {selectedUser}</p>
                     <p>Email: {email}</p>
+                    <p>Sueldo: {sueldo}</p>
+                    <p>Nivel: {nivel}</p>
+                    <p>Role: {role}</p>
                     {/* Agrega aquí más detalles del usuario según tus necesidades */}
                 </Modal.Body>
                 <Modal.Footer>

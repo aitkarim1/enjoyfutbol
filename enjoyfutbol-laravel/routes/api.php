@@ -23,7 +23,7 @@ Route::post("/login", [userController::class, "login"]);
 Route::post("/logout", [userController::class, "logout"]);
 Route::get("/get-usuarios", [userController::class, "getUsuarios"]);
 Route::post("/ver-usuario", [userController::class, "verUsuario"]);
-Route::post("/modificar-usuario", [userController::class, "modificarUsuario"]);
+Route::post("/modificar-usuario", [userController::class, "modificarUsuarioAdmin"]);
 Route::post("/eleminar-usuario", [userController::class, "eliminarUsuario"]);
 Route::post("/editar-usuario", [userController::class, "editarUsuario"]);
 Route::post("/buscar-usuario", [userController::class, "buscarUsuarios"]);
@@ -41,5 +41,7 @@ Route::post("/abandonar-partido", [partidoController::class, "abandonarPartido"]
 Route::post("/add-campo", [campoController::class, "addCampo"]);
 Route::get("/get-campos", [campoController::class, "getCampos"]);
 Route::post("/get-campo-by-id", [campoController::class, "getCampoById"]);
-Route::put("/modificar-campo", [campoController::class, "modificarCampo"]);
+Route::post("/modificar-campo", [campoController::class, "modificarCampo"]);
 Route::post("/eleminar-campo", [campoController::class, "eliminarCampo"]);
+Route::post("/buscar-campo", [campoController::class, "buscarCampo"]);
+

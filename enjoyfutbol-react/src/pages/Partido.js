@@ -233,6 +233,10 @@ function Partido() {
         }
     }
 
+    const handleComoLlegar = (latitud, longitud) => {
+        const url = `https://www.google.com/maps/dir/?api=1&destination=${latitud},${longitud}`;
+        window.open(url, '_blank');
+    };
 
     return (
         <section>
@@ -264,7 +268,7 @@ function Partido() {
                                     </div>
                                 </ListGroup.Item>
                             </ListGroup>
-                            <ListGroup as="ol" className="custom-list-group m-0 p-0" style={{ backgroundColor: "transparent" }}>
+                            <ListGroup as="ol" className="custom-list-group m-0 p-0" style={{ backgroundColor: "transparent", cursor: "pointer" }} onClick={() => handleComoLlegar(campo.latitud, campo.longitud)}>
                                 <ListGroup.Item as="li" className="item-hover d-flex justify-content-between align-items-center px-5" style={{ backgroundColor: "transparent" }} action>
                                     <div className=" me-auto">
                                         <div className="fw-bold" style={{ display: "flex" }}>
@@ -316,14 +320,14 @@ function Partido() {
                                 )
                             )
                         )}
-                        {user.role === "admin" && user.role === "organizador" && (
+                        {user.role === "admin" || user.role === "organizador" ? (
                             <div style={{ width: "70%", marginTop: "3px", position: "fixed", bottom: 0 }}>
                                 <div style={{ display: "flex" }}>
                                     <Button variant='info' className='mb-3 mx-4' style={{ width: "50%" }} onClick={handleShowModalModificar}>Modificar partido</Button>
                                     <Button variant='danger' className='mb-3 mx-4' style={{ width: "50%" }} onClick={handleShowModalCancelar}>Cancelar partido</Button>
                                 </div>
                             </div>
-                        )}
+                        ) : ""}
 
                     </>
                 )}

@@ -66,7 +66,7 @@ class campoController extends Controller
     public function modificarCampo(Request $request)
     {
         // Buscar el partido por su ID
-        $campo = Campo::find($request->id);
+        $campo = Campo::find($request->input('id'));
 
         // Verificar si el partido existe
         if (!$campo) {
@@ -74,11 +74,13 @@ class campoController extends Controller
         }
 
         // Actualizar los datos del partido
-        $campo->nombre = $request->nombre;
-        $campo->ubicacion = $request->ubicacion;
-        $campo->ciudad = $request->ciudad;
-        $campo->latitud = $request->latitud;
-        $campo->longitud = $request->longitud;
+        $campo->update([
+            'nombre' => $request->input('nombre'),
+            'ubicacion' => $request->input('ubicacion'),
+            'ciudad' => $request->input('ciudad'),
+            'latitud' => $request->input('latitud'),
+            'longitud' => $request->input('longitud')
+        ]);
 
         // Devolver una respuesta con el partido actualizado
         return response()->json($campo);
@@ -101,5 +103,18 @@ class campoController extends Controller
 
         // Devolver una respuesta de éxito
         return response()->json(['message' => 'Campo eliminado correctamente']);
+    }
+
+    public function buscarCampo(Request $request)
+    {
+        info('texto de busqueda: ' . $request->input('texto'));
+        // Obtener el texto de búsqueda del input
+        $textoBusqueda = $request->input('texto');
+
+        // Buscar usuarios que coincidan con el texto de búsqueda en el nombre
+        $campos = Campo::where('nombre', 'like', '%' . $textoBusqueda . '%')->get();
+
+        // Devolver los usuarios encontrados
+        return response()->json($campos);
     }
 }

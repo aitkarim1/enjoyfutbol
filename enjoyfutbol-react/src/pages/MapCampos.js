@@ -32,6 +32,12 @@ function MapCampos() {
     iconUrl: require("../asset/icons/iconoMapa.webp"),
     iconSize: [30, 30] // size of the icon
   });
+
+  const handleComoLlegar = (latitud, longitud) => {
+    const url = `https://www.google.com/maps/dir/?api=1&destination=${latitud},${longitud}`;
+    window.open(url, '_blank');
+  };
+  
   return (
     <section>
       <Aside />
@@ -55,7 +61,7 @@ function MapCampos() {
                           <Card.Text>
                             {campo.ubicacion}
                           </Card.Text>
-                          <Button variant="primary">Como llegar</Button>
+                          <Button variant="primary" onClick={() => handleComoLlegar(campo.latitud, campo.longitud)}>Como llegar</Button>
                         </Card.Body>
                       </Card>
                     </Popup>

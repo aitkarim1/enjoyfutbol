@@ -194,8 +194,9 @@ class userController extends Controller
 
     public function buscarUsuarios(Request $request)
     {
+        info('texto de busqueda: ' . $request->input('texto'));
         // Obtener el texto de búsqueda del input
-        $textoBusqueda = $request->input('texto_busqueda');
+        $textoBusqueda = $request->input('texto');
 
         // Buscar usuarios que coincidan con el texto de búsqueda en el nombre
         $usuarios = User::where('name', 'like', '%' . $textoBusqueda . '%')->get();

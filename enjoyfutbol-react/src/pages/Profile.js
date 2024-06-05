@@ -61,7 +61,7 @@ function Profile() {
             <ListGroup.Item as="li" className="d-flex justify-content-between align-items-center px-5" style={{ backgroundColor: "transparent" }}>
               <div className=" me-auto">
                 <div className="fw-bold" style={{ display: "flex" }}>
-                  <div><div style={{ fontSize: "19px", color: "green" }}>{user.sueldo}</div><div style={{ fontWeight: "100", fontSize: "14px" }}>crédito</div></div>
+                  <div><div style={{ fontSize: "19px", color: "green" }}>€{user.sueldo}</div><div style={{ fontWeight: "100", fontSize: "14px" }}>crédito</div></div>
                 </div>
               </div>
             </ListGroup.Item>
